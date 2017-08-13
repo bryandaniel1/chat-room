@@ -66,11 +66,10 @@ public class AccountServlet extends HttpServlet {
                 request.setAttribute("message", "Your account has already been activated.  "
                         + "You may sign in.");
             } else {
-                boolean activated = accountService.activateAccount(code);
-                if(activated){
+                if (accountService.activateAccount(code)) {
                     request.setAttribute("message", "Thank you! You have successfully activated "
-                        + "your account.  You may now sign in.");
-                }else{
+                            + "your account.  You may now sign in.");
+                } else {
                     request.setAttribute("message", "No account could be activated for the "
                             + "given registration code.");
                 }
