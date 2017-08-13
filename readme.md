@@ -8,14 +8,14 @@ This chat room application provides functionality to support multiple chat rooms
 
 The purpose of this repository is to provide example implementations of various technologies in Java.  The source code may also be a reference for JQuery and MySQL statements as these languages were also used in the development of this application.  Some of the technologies used in the source code are listed below.
 
-**a)** Java Server Faces (JSF)
-**b)** Enterprise Java Beans (EJB)
-**c)** Java Persistence API (JPA)
-**d)** WebSockets
-**e)** EJB Timer Service
-**f)** jBCrypt
-**g)** OmniFaces
-**h)** Apache Commons Email
+	a) Java Server Faces (JSF)
+	b) Enterprise Java Beans (EJB)
+	c) Java Persistence API (JPA)
+	d) WebSockets
+	e) EJB Timer Service
+	f) jBCrypt
+	g) OmniFaces
+	h) Apache Commons Email
 
 ## Setup and Run Instructions
 
@@ -128,50 +128,47 @@ https://netbeans.org/downloads/
 
  - The application requires an xml file named chatroom-config.xml consisting of the following format.
 
-<?xml version="1.0" encoding="UTF-8"?>
-<properties>
-    <path-to-images>
-        <value>/path/to/the/directory/for/stored/images</value>
-    </path-to-images>
-    <path-to-videos>
-        <value>/path/to/the/directory/for/stored/videos</value>
-    </path-to-videos>
-    <path-to-chat-records>
-        <value>/path/to/the/directory/for/stored/chat-records</value>
-    </path-to-chat-records>
-    <email>
-	<host>the administrator mail host</host>
-	<address>the administrator email address</address>
-	<password>the administrator email password encrypted using the key</password>
-    </email>
-</properties>
+		<?xml version="1.0" encoding="UTF-8"?>
+		<properties>
+		    <path-to-images>
+			<value>/path/to/the/directory/for/stored/images</value>
+		    </path-to-images>
+		    <path-to-videos>
+			<value>/path/to/the/directory/for/stored/videos</value>
+		    </path-to-videos>
+		    <path-to-chat-records>
+			<value>/path/to/the/directory/for/stored/chat-records</value>
+		    </path-to-chat-records>
+		    <email>
+			<host>the administrator mail host</host>
+			<address>the administrator email address</address>
+			<password>the administrator email password encrypted using the key</password>
+		    </email>
+		</properties>
 
 ### Section E - deploy application
 
 **a)** This application can be run on the GlassFish Server from within the NetBeans IDE by  right-clicking the EAR project node and selecting "Run".
 
-**b)** View the application by pointing the browser to https://localhost:8484/ChatRoom for a connection with SSL/TLS implemented.  Otherwise, comment out the web module security constraint in ChatRoom/WEB-INF/web.xml and point the browser to http://localhost:8080/ChatRoom.
+**b)** View the application by pointing the browser to https://localhost:8484/ChatRoom for a connection with SSL/TLS implemented.  Otherwise, comment out the web module security constraint in ChatRoom/WEB-INF/web.xml and point the browser to http://localhost:8080/ChatRoom.  If modified to remove the security constraint, the chat.js file in the web project will also need to be modified to change the WebSocket protocol from "wss" to "ws" and the port from "8484" to "8080".
 	
 
 ### Section F - notes
 
 **a)** Default users are provided in the database with the following credentials:
 
-**username**	**password**	**role**
-
-fred1		fredpass	admin
-
-wilma1		wilmapass	user
-
-barney1		barneypass	user
-
-betty1		bettypass	user
+| username  | password | role |
+| --------- | -------- | ---- |
+| fred1  | fredpass | admin |
+| wilma1  | wilmapass  | user |
+| barney1  | barneypass  | user |
+| betty1  | bettypass  | user |
 
 **b)** SSL/TLS:
 
  - To utilize SSL/TLS on localhost, a self-signed certificate is required.  With a self-signed certificate created, access the running application by SSL/TLS by pointing a web browser to https://localhost:8484/ChatRoom.
 
- - Otherwise, comment out the application's security constraint in diabetesregistry/WEB-INF/web.xml and access the running application by pointing a web browser to http://localhost:8080/ChatRoom.
+ - Otherwise, comment out the application's security constraint in diabetesregistry/WEB-INF/web.xml and access the running application by pointing a web browser to http://localhost:8080/ChatRoom.  The chat.js file in the web project will also need to be modified to change the WebSocket protocol from "wss" to "ws" and the port from "8484" to "8080".
 
 **c)** email password encryption:
 
