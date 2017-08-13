@@ -1,0 +1,26 @@
+/* 
+    Created on : Jul 25, 2017, 9:13:20 PM
+    Author     : Bryan Daniel
+*/
+/*For small mobile devices*/
+@media handheld, screen and (max-width : 767px){
+    #pagecontent {
+        width: 95%;
+        overflow: auto;
+        margin: 1%;
+        font-size: 1.2em;
+    }
+    #lobbyAction, #signOut, #chatLogSection, 
+    #rooms, #historySection, #usernameSection{
+        width: 90%;
+    }
+    #usernameSection{
+        display: none;
+    }
+    #showUsers{
+        display: inline;
+    }
+    input, textarea, select {
+        font-size: 1.1em;
+    }
+}

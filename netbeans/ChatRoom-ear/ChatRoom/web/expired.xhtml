@@ -1,0 +1,16 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content" >
+        <h1 class="exceptionHeader">Session Expired</h1>
+        <p class="exceptionDetails">Your session has expired.</p>
+        <div>
+            <h:form id="logoutForm">
+                <h:commandButton styleClass="ui-button ui-corner-all ui-widget" value="Return to Sign In Page" action="index"/>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+

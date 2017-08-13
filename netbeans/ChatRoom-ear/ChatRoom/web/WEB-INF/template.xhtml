@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title><ui:insert name="title">Chat Room Application</ui:insert></title>
+        <h:outputStylesheet library="css" name="main.css" />
+        <h:outputStylesheet library="css" name="media.css" />
+        <h:outputStylesheet library="js" name="jquery/jquery-ui.min.css" />
+        <h:outputStylesheet library="js" name="jquery/jquery-ui.structure.min.css" />
+        <h:outputStylesheet library="js" name="jquery/jquery-ui.theme.min.css" />
+        <h:outputScript library="js" name="jquery/jquery-1.7.js" />
+        <h:outputScript library="js" name="jquery/jquery-ui.min.js" />
+        <h:outputScript library="js" name="main.js"/>
+    </h:head>
+    <h:body>        
+        <section id="pagecontent">
+            <h1>Chat Room Application</h1>
+            <h:panelGroup id="userLinks">
+                <h:panelGroup rendered="#{not empty userBean.user.firstName}">
+                    Hello, #{userBean.user.firstName}
+                    <h:panelGroup rendered="#{userBean.user.userRole == 'admin'}">
+                        <h:form>
+                            <h:commandLink action="enterAdministration">administration</h:commandLink>                            
+                        </h:form>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+            <ui:insert name="content">Default content</ui:insert>
+        </section>
+    </h:body>
+</html>
+

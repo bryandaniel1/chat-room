@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{chatBean.checkValidation()}"/>
+    </f:metadata>
+    <h:head>
+        <title><ui:insert name="title">Chat Room Application</ui:insert></title>
+        <h:outputStylesheet library="css" name="main.css" />
+        <h:outputStylesheet library="css" name="media.css" />
+        <h:outputStylesheet library="js" name="jquery/jquery-ui.min.css" />
+        <h:outputStylesheet library="js" name="jquery/jquery-ui.structure.min.css" />
+        <h:outputStylesheet library="js" name="jquery/jquery-ui.theme.min.css" />
+        <h:outputScript library="js" name="jquery/jquery-1.7.js" />
+        <h:outputScript library="js" name="jquery/jquery-ui.min.js" />
+        <h:outputScript library="js" name="chat.js"/>
+    </h:head>
+    <h:body>
+        <section id="pagecontent">
+            <h1>Chat Room Application</h1>
+            <section id="chatRoom">
+                <h2>Room: ${userBean.selectedRoom}</h2>
+                <input type="hidden" id="username" value="#{chatBean.userBean.user.username}" />
+                <input type="hidden" id="roomName" value="#{chatBean.userBean.selectedRoom}" />
+                <input type="hidden" id="chatRole" value="#{chatBean.userBean.chatRole}" />
+                <input type="hidden" id="exitSubstring" value="#{messageDispatcher.exitSubstring}" />
+                <input type="hidden" id="chatSubstring" value="#{messageDispatcher.chatSubstring}" />
+                <input type="hidden" id="enterSubstring" value="#{messageDispatcher.enterSubstring}" />
+                <c:choose>
+                    <c:when test="#{chatBean.userBean.chatRole eq chatRoomManager.hostRole}">
+                        <input type="hidden" id="hostUsername" value="#{chatBean.userBean.user.username}" />
+                    </c:when>
+                    <c:otherwise>
+                        <input type="hidden" id="hostUsername" value="#{chatRoomManager.findHostUsername(chatBean.userBean.selectedRoom)}" />
+                    </c:otherwise>
+                </c:choose>
+                <h:panelGroup id="errorMessages" layout="block">
+                    <h:messages styleClass="ui-state-error"/>
+                </h:panelGroup>
+                <div id="messageForm">
+                    <section id="chatLogSection">
+                        <h4>Chat</h4>
+                        <div id="chatLogContainer">
+                            <div id="chatLog">
+                            </div>
+                        </div>
+                    </section>
+                    <section id="usernameSection">
+                        <h4>Users</h4>
+                        <div id="users">
+                            <c:forEach items="#{chatBean.usersFoundInRoom}" var="username">
+                                <h:outputText value="#{username}"/><br />
+                            </c:forEach>
+                        </div>
+                    </section>
+                    <section id="userInput">
+                        <div id="messages">
+                            <label for="messageArea">enter message:</label>
+                            <textarea id="messageArea"></textarea>
+                        </div>
+                        <div id="imagePreviewContainer">
+                            <h:panelGroup id="imagePreview">
+                                <h:graphicImage rendered="#{chatBean.imageReadyForPreview}"
+                                                height="200" 
+                                                width="240" 
+                                                value="/image?action=preview"/>
+                            </h:panelGroup>                            
+                        </div>
+                        <div id="buttonsPanel" class="buttonsDiv">
+                            <button id="sendMessage">Send Message</button>
+                            <button id="disconnect">Leave Chat</button>
+                            <button id="showUsers">Show Users</button>
+                        </div>
+                        <div id="uploadPanel" class="buttonsDiv">
+                            <h:form id="form" enctype="multipart/form-data" prependId="false">
+                                <h:inputFile styleClass="ui-button ui-corner-all ui-widget inputFileElement"
+                                             id="file"
+                                             value="#{chatBean.fileToUpload}"> 
+                                    <f:validator validatorId="fileValidator" />
+                                    <f:ajax render=":imagePreview :errorMessages :shareFileButtonForm:shareFileButtonPanel"/>
+                                </h:inputFile>
+                            </h:form>
+                            <h:form id="shareFileButtonForm">
+                                <h:panelGroup id="shareFileButtonPanel">
+                                    <h:panelGroup rendered="#{not empty chatBean.fileToUpload}">
+                                        <h:commandButton styleClass="ui-button ui-corner-all ui-widget" 
+                                                         id="upload" 
+                                                         value="Share File">
+                                            <f:ajax event="click" listener="#{chatBean.uploadFile}" 
+                                                    render="@form :file :errorMessages :imagePreview"/>
+                                        </h:commandButton>                        
+                                    </h:panelGroup>
+                                </h:panelGroup>        
+                            </h:form>             
+                        </div> 
+                    </section>
+                </div>
+            </section>
+        </section>
+    </h:body>
+</html>
+

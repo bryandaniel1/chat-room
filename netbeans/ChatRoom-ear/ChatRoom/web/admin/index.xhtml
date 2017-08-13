@@ -1,0 +1,74 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content" >
+        <section id="admin">
+            <h2>Administration</h2>
+            <section id="userView">
+                <h3>Chat Room Users</h3>
+                <h:panelGroup id="successMessage">
+                    <h:panelGroup rendered="#{not empty administrationBean.successMessage}">
+                        #{administrationBean.successMessage}
+                    </h:panelGroup>
+                </h:panelGroup>
+                <h:panelGroup id="errorMessages">
+                    <h:messages styleClass="ui-state-error"/>
+                </h:panelGroup>
+                <div id="accordion">
+                    <c:forEach items="#{administrationBean.users}" var="user">                        
+                        <h3>#{user.username}</h3>
+                        <div>
+                            <div id="#{user.username}userInfo">
+                                <p>Name: #{user.firstName} #{user.lastName}</p>
+                                <p>Role: #{user.userRole}</p>
+                                <h:form>
+                                    <p>Activated: #{user.userAccount.activated}
+                                        <c:choose>
+                                            <c:when test="#{user.userAccount.activated}">
+                                                <h:commandButton value="Deactivate" styleClass="ui-button ui-corner-all ui-widget"
+                                                                 action="#{administrationBean.deactivateUser(user)}">
+                                                    <f:ajax execute="@form" render="@form :successMessage :errorMessages"/>
+                                                </h:commandButton>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h:commandButton value="Activate" styleClass="ui-button ui-corner-all ui-widget"
+                                                                 action="#{administrationBean.activateUser(user)}">
+                                                    <f:ajax execute="@form" render="@form :successMessage :errorMessages"/>
+                                                </h:commandButton>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </p>
+                                </h:form>
+                                <p>Email Address:  <h:link class="emailFormLink">#{user.userAccount.emailAddress}</h:link></p>
+                            </div>
+                            <div id="#{user.username}emailFormDiv" class="emailForm">
+                                <h:form>
+                                    <p><h:outputText value="Send an email message to #{user.username}." /></p>
+                                    <h:outputLabel for="#{user.username}emailMessageInput" value="Email Message: " />
+                                    <h:inputTextarea id="#{user.username}emailMessageInput" value="#{administrationBean.emailMessage}" 
+                                                     required="true" requiredMessage="The email message is required.">
+                                        <f:validator validatorId="emailMessageValidator" />
+                                    </h:inputTextarea>
+                                    <h:commandButton value="Send Email Message" styleClass="ui-button ui-corner-all ui-widget" 
+                                                     action="#{administrationBean.sendEmailMessage(user)}">
+                                        <f:ajax execute="@form" render="@form :successMessage :errorMessages" 
+                                                onevent="function(data) { handleAdministratorEmailAjaxCall(data, '#{user.username}') }"/>
+                                    </h:commandButton>
+                                </h:form>
+                                <button class="cancelEmailFormButton">Cancel</button>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </section>
+            <h:form>
+                <h:commandLink action="exitAdministration">Exit</h:commandLink>
+            </h:form>
+        </section>
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,71 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content" >
+        <section id="lobby">
+            <h2>Lobby</h2>
+            <section id="rooms">
+                <div id="errorMessages">
+                    <h:messages styleClass="ui-state-error"/>
+                </div>
+                <h3>Chat Rooms:</h3>                
+                <input type="hidden" id="userName" value="${lobbyBean.userBean.user.username}" />
+                <div id="navBar">
+                    <h:form id="navForm">
+                        <h3>currently open :</h3>
+                        <h:panelGroup rendered="#{not empty lobbyBean.rooms}">
+                            <h:dataTable styleClass="navLink" value="#{lobbyBean.rooms}" var="room">
+                                <h:column>
+                                    <f:facet name="header">Room Name</f:facet>
+                                    <h:commandLink value="#{room.roomName}" action="#{lobbyBean.processGuest()}">
+                                        <f:setPropertyActionListener target="#{lobbyBean.userBean.selectedRoom}" value="#{room.roomName}" />
+                                        <f:setPropertyActionListener target="#{lobbyBean.userBean.chatRole}" value="#{chatRoomManager.guestRole}" />
+                                    </h:commandLink>                                
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Room Creator</f:facet>
+                                    <h:outputText value="#{room.roomCreator.username}" />
+                                </h:column>
+                            </h:dataTable>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{empty chatRoomManager.getActiveChatRooms()}">
+                            <h:outputText value="No rooms open" />
+                        </h:panelGroup>
+                    </h:form>
+                </div>
+            </section>
+            <section id="options">
+                <div id="lobbyAction">
+                    <div>
+                        <button id="newFormButton">Open Room</button>
+                    </div>
+                    <div id="newRoomForm">
+                        <h:form>
+                            <h:outputLabel for="roomNameInput" value="Room Name: " />
+                            <h:inputText id="roomNameInput" value="#{lobbyBean.userBean.selectedRoom}" 
+                                         required="true" requiredMessage="A room name is requried to open a chat room."/>
+                            <h:commandButton styleClass="ui-button ui-corner-all ui-widget" value="Submit" action="#{lobbyBean.processHost()}">
+                                <f:setPropertyActionListener target="#{lobbyBean.userBean.chatRole}" value="#{chatRoomManager.hostRole}" />
+                            </h:commandButton>
+                            <button id="cancelButton">cancel</button>
+                        </h:form>
+                    </div>
+                </div>
+                <div id="History" class="buttonsDiv">
+                    <h:form id="historyForm">
+                        <h:commandButton styleClass="ui-button ui-corner-all ui-widget" value="History" action="history"/>
+                    </h:form>
+                </div>
+                <div id="signOut" class="buttonsDiv">
+                    <h:form id="logoutForm">
+                        <h:commandButton styleClass="ui-button ui-corner-all ui-widget" value="Sign Out" action="#{lobbyBean.userBean.signOutUser}"/>
+                    </h:form>
+                </div>
+            </section>
+        </section>
+    </ui:define>
+</ui:composition>
+

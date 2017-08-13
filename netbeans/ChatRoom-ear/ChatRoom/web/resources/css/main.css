@@ -1,0 +1,124 @@
+/* 
+    Created on : Jun 16, 2017, 5:51:40 PM
+    Author     : Bryan Daniel
+*/
+body {
+    background-color: #E9F0F2;
+}
+#pagecontent {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 60%;
+    overflow: auto;
+    margin: 1% 20%;
+    padding: 10px;
+    border: 3px solid #93c3cd;
+    background-color: #fcfdfd;
+}
+h1, h2, h4, h5 {
+    margin: 0.2em;
+}
+section, div { 
+    margin: 5px;
+    text-align: center;
+}
+#userLinks{
+    float: right;
+}
+.buttonsDiv, #lobbyAction { 
+    float: left;
+    clear: left;
+}
+#signInTable, #registerTable {
+    margin-top: 2em;
+}
+#registerTable td label{
+    float: right;
+}
+table {
+    border-collapse: separate; 
+    border-spacing: 2em;
+}
+#lobby{
+    width: 100%;
+}
+#newRoomForm{
+    float: left;
+    clear: left;
+}
+#signOut{
+    height: 50px;
+}
+#chatLogSection, #rooms{
+    width: 65%;
+    margin: 1% 3%;
+    float: left;
+}
+#historySection{
+    width: 80%;
+    margin: 1% 3%;
+}
+#usernameSection{
+    width: 20%;
+    margin: 1% 3%;
+    float: left;
+}
+#showUsers{
+    display: none;
+}
+#userInput{
+    width: 96%;
+    margin: 1% 2%;
+}
+#chatLog, #navBar, #users{
+    text-align: left;
+}
+#chatLog{
+    width: 95%;
+}
+#chatLogContainer, #navBar{
+    border: 1px solid black;
+    height: 480px;
+    width: 100%;
+    overflow-y:auto;
+    background-color: #E9F0F2;
+}
+#users{
+    border: 1px solid black;
+    height: 480px;
+    width: 100%;
+    overflow-y:auto;
+    background-color: #E9F0F2;
+}
+#messages{
+    width: 100%;
+    margin: 0%;
+}
+#messageArea{
+    border: 1px solid black;
+    height: 3em;
+    width: 60%;
+}
+#imagePreviewContainer{
+    float: right;
+}
+.selfMessage{
+    background-color: #db4865;
+    color: white;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+.otherUserMessage{
+    background-color: #93c3cd;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+.ui-state-error{
+    clear: both;
+}
+#successMessage{
+    color: blue;
+    display: block;
+}
+.emailForm{
+    display: none;
+}

@@ -1,0 +1,15 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content" >
+        <h1 class="exceptionHeader">404 Error</h1>
+        <p class="exceptionDetails">Whoops!  The requested resource does not exist on the server.</p>
+        <p class="exceptionDetails">Click the Back button to return to the previous page.</p>
+
+        <h2 class="exceptionHeader">Details</h2>
+        <p class="exceptionDetails">Requested URI: #{requestScope['javax.servlet.forward.request_uri']}</p>
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,19 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content" >
+        <h2>Success</h2>
+        <p>You have successfully registered as a new user.  To activate your account, 
+            refer to the message sent to your email address.</p>
+        <div id="errorMessages">
+            <h:messages styleClass="ui-state-error"/>
+        </div>
+        <h:form>
+            <h:commandButton styleClass="ui-button ui-corner-all ui-widget" action="index" value="Return to Sign-In Page" />
+        </h:form>
+    </ui:define>
+</ui:composition>
+
