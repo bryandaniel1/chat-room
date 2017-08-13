@@ -19,19 +19,19 @@ The purpose of this repository is to provide example implementations of various 
 
 ## Setup and Run Instructions
 
-## Sections
+### Contents
 
-A - requirements
+	Section A - requirements
 
-B - build MySQL database
+	Section B - build MySQL database
 
-C - build application
+	Section C - configuration
 
-D - configuration
+	Section D - build application
 
-E - deploy application
+	Section E - deploy application
 
-F - notes
+	Section F - notes
 
 
 ### Section A - requirements
@@ -52,7 +52,50 @@ https://netbeans.org/downloads/
 
 **a)** In Workbench, open and execute the file named "chatroom_db.sql" found in the db directory.
 
-### Section C - build application
+### Section C - configuration
+
+**a)** System Properties
+
+ - The application requires a system property defining the location of the configuration file required by the application.  To establish this property, you can use the following procedure.
+
+		- In the Services view of NetBeans, expand the Servers node, right-click the GlassFish Server, and select "Start".
+
+		- Once the Server has started, navigate to http://localhost:4848/ to open the GlassFish Console.
+
+		- Select "server" from the Common Tasks menu and select the "Properties" tab to view system properies.
+
+		- Click on the "Add Property" button and add a property with a name of "chatroom-config" and a value as the full path to the chatroom-config.xml.
+
+ - The application also requires a system property defining the encryption key for the administrator email password.  To establish this property, complete the steps below.
+
+		- The encryption key is a 16-character string used to decrypt the administrator email password using the AES algorithm.  Determine what the key should be.
+
+		- In the system properties page of the GlassFish Console, add a new property with the name, "chatroom-encryption-key", and the value of the 16-character string.
+
+
+**b)** Configuration File
+
+ - The application requires an xml file named chatroom-config.xml consisting of the following format.
+
+		<?xml version="1.0" encoding="UTF-8"?>
+		<properties>
+		    <path-to-images>
+			<value>/path/to/the/directory/for/stored/images</value>
+		    </path-to-images>
+		    <path-to-videos>
+			<value>/path/to/the/directory/for/stored/videos</value>
+		    </path-to-videos>
+		    <path-to-chat-records>
+			<value>/path/to/the/directory/for/stored/chat-records</value>
+		    </path-to-chat-records>
+		    <email>
+			<host>the administrator mail host</host>
+			<address>the administrator email address</address>
+			<password>the administrator email password encrypted using the key</password>
+		    </email>
+		</properties>
+
+### Section D - build application
 
 **a)** The following JAR files are requried for compilation.  These can be placed in a "lib" directory under the EAR project.
 
@@ -102,49 +145,6 @@ https://netbeans.org/downloads/
  - Click "OK" when the Web project properties have been set.
 
 **c)** Once the program compiles, build the application by selecting the 'Clean and Build Project' menu item in the 'Run' menu to produce an EAR file in the dist folder of the EAR project.
-
-### Section D - configuration
-
-**a)** System Properties
-
- - The application requires a system property defining the location of the configuration file required by the application.  To establish this property, you can use the following procedure.
-
-		- In the Services view of NetBeans, expand the Servers node, right-click the GlassFish Server, and select "Start".
-
-		- Once the Server has started, navigate to http://localhost:4848/ to open the GlassFish Console.
-
-		- Select "server" from the Common Tasks menu and select the "Properties" tab to view system properies.
-
-		- Click on the "Add Property" button and add a property with a name of "chatroom-config" and a value as the full path to the chatroom-config.xml.
-
- - The application also requires a system property defining the encryption key for the administrator email password.  To establish this property, complete the steps below.
-
-		- The encryption key is a 16-character string used to decrypt the administrator email password using the AES algorithm.  Determine what the key should be.
-
-		- In the system properties page of the GlassFish Console, add a new property with the name, "chatroom-encryption-key", and the value of the 16-character string.
-
-
-**b)** Configuration File
-
- - The application requires an xml file named chatroom-config.xml consisting of the following format.
-
-		<?xml version="1.0" encoding="UTF-8"?>
-		<properties>
-		    <path-to-images>
-			<value>/path/to/the/directory/for/stored/images</value>
-		    </path-to-images>
-		    <path-to-videos>
-			<value>/path/to/the/directory/for/stored/videos</value>
-		    </path-to-videos>
-		    <path-to-chat-records>
-			<value>/path/to/the/directory/for/stored/chat-records</value>
-		    </path-to-chat-records>
-		    <email>
-			<host>the administrator mail host</host>
-			<address>the administrator email address</address>
-			<password>the administrator email password encrypted using the key</password>
-		    </email>
-		</properties>
 
 ### Section E - deploy application
 
