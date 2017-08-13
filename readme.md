@@ -77,6 +77,7 @@ https://netbeans.org/downloads/
  - To configure the database connectivity for the application, remain in the GlassFish Console to perform the next steps.
  
  		 - Expand the "Resources" node in the Common Tasks menu and select "JDBC Connection Pools" within the "JDBC" menu option.
+		 
 		 - Click "New..." to create a new connection pool.
 		 
 		 - In the "New JDBC Connection Pool" page, enter "ChatRoomPool" for the new pool name, "javax.sql.DataSource" as the resource type, and "MySql" as the database driver vendor.  Click "Next".
