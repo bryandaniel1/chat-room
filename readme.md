@@ -72,10 +72,46 @@ https://netbeans.org/downloads/
 
 		- In the system properties page of the GlassFish Console, add a new property with the name, "chatroom-encryption-key", and the value of the 16-character string.
 
+**b)** JDBC Configuration
 
-**b)** Configuration File
+ - To configure the database connectivity for the application, remain in the GlassFish Console to perform the next steps.
+ 
+ 		 - Expand the "Resources" node in the Common Tasks menu and select "JDBC Connection Pools" within the "JDBC" menu option.
+		 - Click "New..." to create a new connection pool.
+		 
+		 - In the "New JDBC Connection Pool" page, enter "ChatRoomPool" for the new pool name, "javax.sql.DataSource" as the resource type, and "MySql" as the database driver vendor.  Click "Next".
+		 
+		 - Accept all default values by clicking "Finish".
+		 
+		 - Select the newly created connection pool from the JDBC Connection Pools page.
+		 
+		 - Select the "Additional Properties" tab and add the following properties.
+		 
+	| Name  | Value |
+	| ------ | ----- |
+	| serverName  | localhost |
+	| portNumber  | 3306  |
+	| databaseName  | chat_room  |
+	| user  | chat_room_db_user  |
+	| password  | 8B2R0li!dS@x26{  |
+		
+		- Click on "Save" to save the new properties
+		
+		- In the "General" tab for this datasource, click on "Ping" to test the connection.
+		
+		- If the connection test is successful, proceed to "JDBC Resources" within the "JDBC" menu.
+		
+		- Click "New..." to create a new JDBC resource.
+		
+		- Enter "jdbc/chatRoom" for the JNDI Name and select "ChatRoomPool" for the Pool Name.
+		
+		- Click "OK" to save the new resource.
+		
+ - After this procedure, exit GlassFish Console and shut down the server in NetBeans.
 
- - The application requires an xml file named chatroom-config.xml consisting of the following format.
+**c)** Configuration File
+
+ - The application requires an xml file named chatroom-config.xml consisting of the following format.  It must reside in the location specified by the system property created in step "a" of this section.
 
 		<?xml version="1.0" encoding="UTF-8"?>
 		<properties>
