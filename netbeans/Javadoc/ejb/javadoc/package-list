@@ -1,0 +1,4 @@
+chat.ejb.entity
+chat.ejb.model
+chat.ejb.service
+chat.ejb.util
