@@ -66,7 +66,7 @@ public class RegistrationEmailMessenger implements EmailMessenger {
     public RegistrationEmailMessenger(ChatRoomUser recipient, String registrationCode) {
 
         this.recipient = recipient;
-        this.activationLink = MessageFormat.format("http://localhost:8080/ChatRoom/account?action=activate&code={0}", 
+        this.activationLink = MessageFormat.format("http://localhost:8484/ChatRoom/account?action=activate&code={0}", 
                 registrationCode);
 
         PRIMARY_MESSAGE_BUILDER.append("<h3>New User Account</h3>");
