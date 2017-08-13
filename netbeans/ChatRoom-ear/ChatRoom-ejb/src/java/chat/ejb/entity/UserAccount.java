@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2017 Bryan Daniel.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package chat.ejb.entity;
 
 import java.io.Serializable;
@@ -58,13 +73,30 @@ public class UserAccount implements Serializable {
     @OneToOne(optional = false)
     private ChatRoomUser chatRoomUser;
 
+    /**
+     * Default constructor
+     */
     public UserAccount() {
     }
 
+    /**
+     * Parameterized constructor setting username
+     *
+     * @param username the username
+     */
     public UserAccount(String username) {
         this.username = username;
     }
 
+    /**
+     * Parameterized constructor setting username, emailAddress,
+     * registrationCode, and activated
+     *
+     * @param username the username
+     * @param emailAddress the email address
+     * @param registrationCode the registration code
+     * @param activated the indicator of account activation
+     */
     public UserAccount(String username, String emailAddress, String registrationCode, boolean activated) {
         this.username = username;
         this.emailAddress = emailAddress;
@@ -72,42 +104,92 @@ public class UserAccount implements Serializable {
         this.activated = activated;
     }
 
+    /**
+     * Gets the value of username
+     *
+     * @return the value of username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Sets the value of username
+     *
+     * @param username the value of username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Gets the value of emailAddress
+     *
+     * @return the value of emailAddress
+     */
     public String getEmailAddress() {
         return emailAddress;
     }
 
+    /**
+     * Sets the value of emailAddress
+     *
+     * @param emailAddress the value of emailAddress
+     */
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
 
+    /**
+     * Gets the value of registrationCode
+     *
+     * @return the value of registrationCode
+     */
     public String getRegistrationCode() {
         return registrationCode;
     }
 
+    /**
+     * Sets the value of registrationCode
+     *
+     * @param registrationCode the value of registrationCode
+     */
     public void setRegistrationCode(String registrationCode) {
         this.registrationCode = registrationCode;
     }
 
+    /**
+     * Gets the value of activated
+     *
+     * @return the value of activated
+     */
     public boolean getActivated() {
         return activated;
     }
 
+    /**
+     * Sets the value of activated
+     *
+     * @param activated the value of activated
+     */
     public void setActivated(boolean activated) {
         this.activated = activated;
     }
 
+    /**
+     * Gets the value of chatRoomUser
+     *
+     * @return the value of chatRoomUser
+     */
     public ChatRoomUser getChatRoomUser() {
         return chatRoomUser;
     }
 
+    /**
+     * Sets the value of chatRoomUser
+     *
+     * @param chatRoomUser the value of chatRoomUser
+     */
     public void setChatRoomUser(ChatRoomUser chatRoomUser) {
         this.chatRoomUser = chatRoomUser;
     }

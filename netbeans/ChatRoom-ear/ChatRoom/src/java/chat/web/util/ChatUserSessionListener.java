@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2017 Bryan Daniel.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package chat.web.util;
 
 import chat.web.bean.ChatRoomManager;
@@ -9,7 +24,8 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 /**
- * Web application HTTP session listener.
+ * This web application HTTP session listener performs tasks required on session
+ * creation and destruction.
  *
  * @author Bryan Daniel
  */
@@ -23,9 +39,9 @@ public class ChatUserSessionListener implements HttpSessionListener {
     private ChatRoomManager manager;
 
     /**
-     * Not implemented
+     * No functionality is currently provided by this method.
      *
-     * @param se
+     * @param se the HttpSessionEvent object
      */
     @Override
     public void sessionCreated(HttpSessionEvent se) {
@@ -41,7 +57,7 @@ public class ChatUserSessionListener implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent se) {
 
         Logger.getLogger(ChatUserSessionListener.class.getName()).log(Level.INFO,
-                        "sessionDestroyed method called for session ID, {0}", se.getSession().getId());
+                "sessionDestroyed method called for session ID, {0}", se.getSession().getId());
         manager.exitChatApplication(se.getSession().getId());
     }
 }

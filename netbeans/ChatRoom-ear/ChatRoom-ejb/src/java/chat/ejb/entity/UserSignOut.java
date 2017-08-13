@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2017 Bryan Daniel.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package chat.ejb.entity;
 
 import java.io.Serializable;
@@ -29,35 +44,70 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserSignOut implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @EmbeddedId
     protected UserSignOutPK userSignOutPK;
     @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ChatRoomUser chatRoomUser;
 
+    /**
+     * Default constructor
+     */
     public UserSignOut() {
     }
 
+    /**
+     * Parameterized constructor setting userSignOutPK
+     *
+     * @param userSignOutPK the user-sign-out primary key
+     */
     public UserSignOut(UserSignOutPK userSignOutPK) {
         this.userSignOutPK = userSignOutPK;
     }
 
+    /**
+     * Parameterized constructor setting username and timeSignedOut
+     *
+     * @param username the username
+     * @param timeSignedOut the time signed out
+     */
     public UserSignOut(String username, Date timeSignedOut) {
         this.userSignOutPK = new UserSignOutPK(username, timeSignedOut);
     }
 
+    /**
+     * Gets the value of userSignOutPK
+     *
+     * @return the value of userSignOutPK
+     */
     public UserSignOutPK getUserSignOutPK() {
         return userSignOutPK;
     }
 
+    /**
+     * Sets the value of userSignOutPK
+     *
+     * @param userSignOutPK the value of userSignOutPK
+     */
     public void setUserSignOutPK(UserSignOutPK userSignOutPK) {
         this.userSignOutPK = userSignOutPK;
     }
 
+    /**
+     * Gets the value of chatRoomUser
+     *
+     * @return the value of chatRoomUser
+     */
     public ChatRoomUser getChatRoomUser() {
         return chatRoomUser;
     }
 
+    /**
+     * Sets the value of chatRoomUser
+     *
+     * @param chatRoomUser the value of chatRoomUser
+     */
     public void setChatRoomUser(ChatRoomUser chatRoomUser) {
         this.chatRoomUser = chatRoomUser;
     }
@@ -71,7 +121,7 @@ public class UserSignOut implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        
+
         if (!(object instanceof UserSignOut)) {
             return false;
         }

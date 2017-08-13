@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2017 Bryan Daniel.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package chat.ejb.entity;
 
 import chat.ejb.model.Conversation;
@@ -80,13 +95,29 @@ public class Message implements Serializable {
     @JsonBackReference
     private ChatRoom roomName;
 
+    /**
+     * Default constructor
+     */
     public Message() {
     }
 
+    /**
+     * Parameterized constructor setting id
+     *
+     * @param id the message ID
+     */
     public Message(Long id) {
         this.id = id;
     }
 
+    /**
+     * Parameterized constructor setting id, timeWritten, message, and image
+     *
+     * @param id the message ID
+     * @param timeWritten the time written
+     * @param message the message content
+     * @param image the indicator of an image message
+     */
     public Message(Long id, Date timeWritten, String message, boolean image) {
         this.id = id;
         this.timeWritten = timeWritten;
@@ -94,58 +125,128 @@ public class Message implements Serializable {
         this.image = image;
     }
 
+    /**
+     * Gets the value of id
+     *
+     * @return the value of id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets the value of id
+     *
+     * @param id the value of id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets the value of timeWritten
+     *
+     * @return the value of timeWritten
+     */
     public Date getTimeWritten() {
         return timeWritten;
     }
 
+    /**
+     * Sets the value of timeWritten
+     *
+     * @param timeWritten the value of timeWritten
+     */
     public void setTimeWritten(Date timeWritten) {
         this.timeWritten = timeWritten;
     }
 
+    /**
+     * Gets the value of message
+     *
+     * @return the value of message
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Sets the value of message
+     *
+     * @param message the value of message
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /**
+     * Gets the value of image
+     *
+     * @return the value of image
+     */
     public boolean getImage() {
         return image;
     }
 
+    /**
+     * Sets the value of image
+     *
+     * @param image the value of image
+     */
     public void setImage(boolean image) {
         this.image = image;
     }
 
+    /**
+     * Gets the value of video
+     *
+     * @return the value of video
+     */
     public boolean getVideo() {
         return video;
     }
 
+    /**
+     * Sets the value of video
+     *
+     * @param video the value of video
+     */
     public void setVideo(boolean video) {
         this.video = video;
     }
 
+    /**
+     * Gets the value of username
+     *
+     * @return the value of username
+     */
     public ChatRoomUser getUsername() {
         return username;
     }
 
+    /**
+     * Sets the value of username
+     *
+     * @param username the value of username
+     */
     public void setUsername(ChatRoomUser username) {
         this.username = username;
     }
 
+    /**
+     * Gets the value of roomName
+     *
+     * @return the value of roomName
+     */
     public ChatRoom getRoomName() {
         return roomName;
     }
 
+    /**
+     * Sets the value of roomName
+     *
+     * @param roomName the value of roomName
+     */
     public void setRoomName(ChatRoom roomName) {
         this.roomName = roomName;
     }
@@ -159,7 +260,7 @@ public class Message implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        
+
         if (!(object instanceof Message)) {
             return false;
         }

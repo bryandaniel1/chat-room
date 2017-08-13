@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2017 Bryan Daniel.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package chat.ejb.entity;
 
 import java.io.Serializable;
@@ -55,47 +70,101 @@ public class ChatRoom implements Serializable {
     @ManyToOne(optional = false)
     private ChatRoomUser roomCreator;
 
+    /**
+     * Default constructor
+     */
     public ChatRoom() {
     }
 
+    /**
+     * Parameterized constructor setting roomName
+     *
+     * @param roomName the room name
+     */
     public ChatRoom(String roomName) {
         this.roomName = roomName;
     }
 
+    /**
+     * Parameterized constructor setting roomName and timeCreated
+     *
+     * @param roomName the room name
+     * @param timeCreated the time created
+     */
     public ChatRoom(String roomName, Date timeCreated) {
         this.roomName = roomName;
         this.timeCreated = timeCreated;
     }
 
+    /**
+     * Gets the value of roomName
+     *
+     * @return the value of roomName
+     */
     public String getRoomName() {
         return roomName;
     }
 
+    /**
+     * Sets the value of roomName
+     *
+     * @param roomName the value of roomName
+     */
     public void setRoomName(String roomName) {
         this.roomName = roomName;
     }
 
+    /**
+     * Gets the value of timeCreated
+     *
+     * @return the value of timeCreated
+     */
     public Date getTimeCreated() {
         return timeCreated;
     }
 
+    /**
+     * Sets the value of timeCreated
+     *
+     * @param timeCreated the value of timeCreated
+     */
     public void setTimeCreated(Date timeCreated) {
         this.timeCreated = timeCreated;
     }
 
+    /**
+     * Gets the value of messageList
+     *
+     * @return the value of messageList
+     */
     @XmlTransient
     public List<Message> getMessageList() {
         return messageList;
     }
 
+    /**
+     * Sets the value of messageList
+     *
+     * @param messageList the value of messageList
+     */
     public void setMessageList(List<Message> messageList) {
         this.messageList = messageList;
     }
 
+    /**
+     * Gets the value of roomCreator
+     *
+     * @return the value of roomCreator
+     */
     public ChatRoomUser getRoomCreator() {
         return roomCreator;
     }
 
+    /**
+     * Sets the value of roomCreator
+     *
+     * @param roomCreator the value of roomCreator
+     */
     public void setRoomCreator(ChatRoomUser roomCreator) {
         this.roomCreator = roomCreator;
     }
@@ -109,7 +178,7 @@ public class ChatRoom implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        
+
         if (!(object instanceof ChatRoom)) {
             return false;
         }

@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2017 Bryan Daniel.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package chat.ejb.entity;
 
 import java.io.Serializable;
@@ -44,38 +59,82 @@ public class UserCredentials implements Serializable {
     @OneToOne(optional = false)
     private ChatRoomUser chatRoomUser;
 
+    /**
+     * Default constructor
+     */
     public UserCredentials() {
     }
 
+    /**
+     * Parameterized constructor setting username
+     *
+     * @param username the username
+     */
     public UserCredentials(String username) {
         this.username = username;
     }
 
+    /**
+     * Parameterized constructor setting username and password
+     *
+     * @param username the username
+     * @param password the password
+     */
     public UserCredentials(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
+    /**
+     * Gets the value of username
+     *
+     * @return the value of username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Sets the value of username
+     *
+     * @param username the value of username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Gets the value of password
+     *
+     * @return the value of password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Sets the value of password
+     *
+     * @param password the value of password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Gets the value of chatRoomUser
+     *
+     * @return the value of chatRoomUser
+     */
     public ChatRoomUser getChatRoomUser() {
         return chatRoomUser;
     }
 
+    /**
+     * Sets the value of chatRoomUser
+     *
+     * @param chatRoomUser the value of chatRoomUser
+     */
     public void setChatRoomUser(ChatRoomUser chatRoomUser) {
         this.chatRoomUser = chatRoomUser;
     }
@@ -89,7 +148,7 @@ public class UserCredentials implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        
+
         if (!(object instanceof UserCredentials)) {
             return false;
         }

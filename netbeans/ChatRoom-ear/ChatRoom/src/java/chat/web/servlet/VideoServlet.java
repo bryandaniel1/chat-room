@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2017 Bryan Daniel.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package chat.web.servlet;
 
 import chat.ejb.service.FileHandlingService;
@@ -40,8 +55,9 @@ public class VideoServlet extends FileServlet {
      *
      * @param request the HttpServletRequest object
      * @param response the HttpServletResponse object
-     * @throws ServletException
-     * @throws IOException
+     * @throws ServletException if the request for the GET could not be handled
+     * @throws IOException if an input or output error is detected when the
+     * servlet handles the GET request
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -62,7 +78,7 @@ public class VideoServlet extends FileServlet {
      *
      * @param request the request object
      * @return the file
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if any request parameters are invalid
      */
     @Override
     protected File getFile(HttpServletRequest request) throws IllegalArgumentException {
