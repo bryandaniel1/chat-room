@@ -50,7 +50,7 @@ https://netbeans.org/downloads/
 
 ### Section B - build MySQL database
 
-**a)** In Workbench, open and execute the file named "chatroom_db.sql" found in the db directory.
+**a)** In Workbench, open and execute the file named "chatroom_db.sql".
 
 ### Section C - configuration
 
