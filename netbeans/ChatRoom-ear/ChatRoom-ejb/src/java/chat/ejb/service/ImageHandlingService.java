@@ -46,6 +46,7 @@ public class ImageHandlingService implements FileHandlingService {
      * @param picture the picture
      * @return the number designated for the user's image or null if an
      * exception occurred
+     * @throws IllegalArgumentException if invalid parameters are provided
      */
     @Override
     public Long saveToFileSystem(String username, String imageName, Object picture)

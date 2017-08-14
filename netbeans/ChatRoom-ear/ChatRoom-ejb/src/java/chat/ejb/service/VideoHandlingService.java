@@ -63,6 +63,7 @@ public class VideoHandlingService implements FileHandlingService {
      * @param messenger the video messenger
      * @return the number designated for the user's video or null if an
      * exception occurred
+     * @throws IllegalArgumentException if invalid parameters are provided
      */
     @Override
     public Long saveToFileSystem(String username, String videoName, Object messenger)
@@ -98,7 +99,7 @@ public class VideoHandlingService implements FileHandlingService {
                         videoNumber = (existingNumber.compareTo(videoNumber) > 0)
                                 ? existingNumber : videoNumber;
                     } catch (NumberFormatException nfe) {
-                        Logger.getLogger(VideoHandlingService.class.getName()).log(Level.SEVERE, 
+                        Logger.getLogger(VideoHandlingService.class.getName()).log(Level.SEVERE,
                                 "Folder name in user images is not a number.");
                     }
                 }
@@ -115,15 +116,15 @@ public class VideoHandlingService implements FileHandlingService {
 
         // creating the video file and writing to the file system
         File newFile = new File(videosDirectory, videoName);
-        VideoMessenger videoMessenger = (VideoMessenger) messenger;       
+        VideoMessenger videoMessenger = (VideoMessenger) messenger;
 
         // This potentially long-running process is launched asynchronously.
         CompletableFuture.supplyAsync(() -> uploadVideo(videoMessenger.getVideoToUpload(),
                 newFile, finalVideoNumber), managedExecutorService)
                 .thenAccept((Long newVideoNumber) -> videoMessenger.relayResults(newVideoNumber));
-        
+
         Logger.getLogger(VideoHandlingService.class.getName()).log(Level.INFO,
-                                "Beginning the video upload for {0}.", username);
+                "Beginning the video upload for {0}.", username);
 
         return null;
     }
@@ -180,8 +181,8 @@ public class VideoHandlingService implements FileHandlingService {
                 outputStream.write(buffer);
             }
             Logger.getLogger(VideoHandlingService.class.getName()).log(Level.INFO,
-                                "Video upload is complete and the video file is located in {0}.", 
-                                newFile.getPath());
+                    "Video upload is complete and the video file is located in {0}.",
+                    newFile.getPath());
             return videoNumber;
         } catch (IOException ex) {
             Logger.getLogger(VideoHandlingService.class.getName()).log(Level.SEVERE,
