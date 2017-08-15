@@ -61,8 +61,7 @@ public class VideoHandlingService implements FileHandlingService {
      * @param username the username
      * @param videoName the name of the video file
      * @param messenger the video messenger
-     * @return the number designated for the user's video or null if an
-     * exception occurred
+     * @return the number designated for the user's video
      * @throws IllegalArgumentException if invalid parameters are provided
      */
     @Override
@@ -126,7 +125,7 @@ public class VideoHandlingService implements FileHandlingService {
         Logger.getLogger(VideoHandlingService.class.getName()).log(Level.INFO,
                 "Beginning the video upload for {0}.", username);
 
-        return null;
+        return finalVideoNumber;
     }
 
     /**

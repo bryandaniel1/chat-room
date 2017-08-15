@@ -45,7 +45,7 @@ public class ImageHandlingService implements FileHandlingService {
      * @param imageName the image name
      * @param picture the picture
      * @return the number designated for the user's image or null if an
-     * exception occurred
+     * exception occurs
      * @throws IllegalArgumentException if invalid parameters are provided
      */
     @Override
@@ -114,7 +114,7 @@ public class ImageHandlingService implements FileHandlingService {
      *
      * @param username the username
      * @param imageNumber the image number
-     * @return the image
+     * @return the image or null if an exception occurs
      * @throws java.io.FileNotFoundException if the image is not found
      */
     @Override
