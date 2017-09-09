@@ -30,6 +30,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -64,17 +65,17 @@ public class ChatRoomManager implements Serializable {
     /**
      * The map of active chat rooms
      */
-    private static final Map<ChatRoom, ArrayList<Session>> ACTIVE_CHAT_ROOMS = new ConcurrentHashMap<>();
+    private static Map<ChatRoom, ArrayList<Session>> activeChatRooms;
 
     /**
      * The chat room users mapped by WebSocket session
      */
-    private static final Map<Session, ChatRoomUser> WEBSOCKET_CONNECTIONS = new ConcurrentHashMap<>();
+    private static Map<Session, ChatRoomUser> websocketConnections;
 
     /**
      * The chat room users mapped by HTTP session ID
      */
-    private static final Map<String, ChatRoomUser> HTTPSESSION_CONNECTIONS = new ConcurrentHashMap<>();
+    private static Map<String, ChatRoomUser> httpSessionConnections;
 
     /**
      * The chat room service
@@ -93,6 +94,17 @@ public class ChatRoomManager implements Serializable {
      */
     @Inject
     private MessageDispatcher messageDispatcher;
+
+    /**
+     * This method constructs the maps for active chat rooms, WebSocket
+     * connections, and HTTP session connections.
+     */
+    @PostConstruct
+    public void init() {
+        activeChatRooms = new ConcurrentHashMap<>();
+        websocketConnections = new ConcurrentHashMap<>();
+        httpSessionConnections = new ConcurrentHashMap<>();
+    }
 
     /**
      * This method opens a chat room for a user and adds it to the chat rooms
@@ -114,13 +126,13 @@ public class ChatRoomManager implements Serializable {
         if (status.getStatus().equals(ProcessingStatus.ERROR)) {
             Logger.getLogger(ChatRoomManager.class.getName()).log(Level.INFO, status.getDetails());
         } else {
-            WEBSOCKET_CONNECTIONS.put(session, user);
+            websocketConnections.put(session, user);
 
             ChatRoom room = chatRoomService.getChatRoom(roomName, user);
             if (user.getUsername().equals(room.getRoomCreator().getUsername())) {
                 ArrayList<Session> newGroup = new ArrayList<>();
                 newGroup.add(session);
-                ACTIVE_CHAT_ROOMS.put(room, newGroup);
+                activeChatRooms.put(room, newGroup);
                 Message m = new Message();
                 m.setId(null);
                 m.setImage(false);
@@ -130,7 +142,7 @@ public class ChatRoomManager implements Serializable {
                 m.setMessage(messageDispatcher.getEnterSubstring() + " " + username
                         + " has opened the chat room.");
                 chatRoomService.storeMessage(m);
-                messageDispatcher.sendMessageToGroup(ACTIVE_CHAT_ROOMS.get(room), m);
+                messageDispatcher.sendMessageToGroup(activeChatRooms.get(room), m);
                 Logger.getLogger(ChatRoomManager.class.getName()).log(Level.INFO, "{0} has been opened", roomName);
             } else {
                 Logger.getLogger(ChatRoomManager.class.getName()).log(Level.INFO,
@@ -157,13 +169,13 @@ public class ChatRoomManager implements Serializable {
         if (status.getStatus().equals(ProcessingStatus.ERROR)) {
             Logger.getLogger(ChatRoomManager.class.getName()).log(Level.INFO, status.getDetails());
         } else {
-            WEBSOCKET_CONNECTIONS.put(session, user);
+            websocketConnections.put(session, user);
 
             ChatRoom chatRoom = null;
-            for (ChatRoom r : ACTIVE_CHAT_ROOMS.keySet()) {
+            for (ChatRoom r : activeChatRooms.keySet()) {
                 if (r.getRoomName().equals(roomName)) {
                     chatRoom = r;
-                    ACTIVE_CHAT_ROOMS.get(r).add(session);
+                    activeChatRooms.get(r).add(session);
                     Message m = new Message();
                     m.setId(null);
                     m.setImage(false);
@@ -173,7 +185,7 @@ public class ChatRoomManager implements Serializable {
                     m.setMessage(messageDispatcher.getEnterSubstring() + " "
                             + username + " has joined the chat.");
                     chatRoomService.storeMessage(m);
-                    messageDispatcher.sendMessageToGroup(ACTIVE_CHAT_ROOMS.get(r), m);
+                    messageDispatcher.sendMessageToGroup(activeChatRooms.get(r), m);
                     break;
                 }
             }
@@ -198,8 +210,8 @@ public class ChatRoomManager implements Serializable {
     public void continueConversation(Session session, String message, MediaType mediaType) {
 
         ChatRoom conversation = null;
-        for (ChatRoom cr : ACTIVE_CHAT_ROOMS.keySet()) {
-            if (ACTIVE_CHAT_ROOMS.get(cr).contains(session)) {
+        for (ChatRoom cr : activeChatRooms.keySet()) {
+            if (activeChatRooms.get(cr).contains(session)) {
                 conversation = cr;
                 break;
             }
@@ -207,7 +219,7 @@ public class ChatRoomManager implements Serializable {
 
         if (conversation != null) {
 
-            ChatRoomUser user = WEBSOCKET_CONNECTIONS.get(session);
+            ChatRoomUser user = websocketConnections.get(session);
             Message m = new Message();
             m.setId(null);
             switch (mediaType) {
@@ -229,7 +241,7 @@ public class ChatRoomManager implements Serializable {
             m.setUsername(user);
             m.setMessage(messageDispatcher.getChatSubstring() + " " + user.getUsername() + ": " + message);
             chatRoomService.storeMessage(m);
-            messageDispatcher.sendMessageToGroup(ACTIVE_CHAT_ROOMS.get(conversation), m);
+            messageDispatcher.sendMessageToGroup(activeChatRooms.get(conversation), m);
         } else {
 
             Message response = new Message();
@@ -248,10 +260,10 @@ public class ChatRoomManager implements Serializable {
      */
     public void leaveChatRoom(Session session) {
 
-        ChatRoomUser user = WEBSOCKET_CONNECTIONS.get(session);
+        ChatRoomUser user = websocketConnections.get(session);
 
-        for (ChatRoom room : ACTIVE_CHAT_ROOMS.keySet()) {
-            if (ACTIVE_CHAT_ROOMS.get(room).contains(session)) {
+        for (ChatRoom room : activeChatRooms.keySet()) {
+            if (activeChatRooms.get(room).contains(session)) {
                 if (room.getRoomCreator().getUsername().equals(user.getUsername())) {
                     if (session.isOpen()) {
                         Message m = new Message();
@@ -262,10 +274,10 @@ public class ChatRoomManager implements Serializable {
                         m.setMessage(messageDispatcher.getExitSubstring() + " " + user.getUsername()
                                 + " has left and closed the chat room.");
                         m.setUsername(user);
-                        messageDispatcher.sendMessageToGroup(ACTIVE_CHAT_ROOMS.get(room), m);
+                        messageDispatcher.sendMessageToGroup(activeChatRooms.get(room), m);
                         chatRoomService.storeMessage(m);
                     }
-                    ACTIVE_CHAT_ROOMS.remove(room);
+                    activeChatRooms.remove(room);
                 } else {
                     if (session.isOpen()) {
                         Message m = new Message();
@@ -276,14 +288,14 @@ public class ChatRoomManager implements Serializable {
                         m.setMessage(messageDispatcher.getExitSubstring() + " " + user.getUsername()
                                 + " has left the room.");
                         m.setUsername(user);
-                        messageDispatcher.sendMessageToGroup(ACTIVE_CHAT_ROOMS.get(room), m);
+                        messageDispatcher.sendMessageToGroup(activeChatRooms.get(room), m);
                         chatRoomService.storeMessage(m);
                     }
-                    ACTIVE_CHAT_ROOMS.get(room).remove(session);
+                    activeChatRooms.get(room).remove(session);
                 }
             }
         }
-        WEBSOCKET_CONNECTIONS.remove(session);
+        websocketConnections.remove(session);
     }
 
     /**
@@ -295,7 +307,7 @@ public class ChatRoomManager implements Serializable {
      */
     public void enterChatRoomLobby(String httpSessionId, ChatRoomUser user) {
 
-        HTTPSESSION_CONNECTIONS.putIfAbsent(httpSessionId, user);
+        httpSessionConnections.putIfAbsent(httpSessionId, user);
     }
 
     /**
@@ -340,7 +352,7 @@ public class ChatRoomManager implements Serializable {
             return status;
         }
         ChatRoom chatRoom = null;
-        for (ChatRoom r : ACTIVE_CHAT_ROOMS.keySet()) {
+        for (ChatRoom r : activeChatRooms.keySet()) {
             if (r.getRoomName().equals(roomName)) {
                 chatRoom = r;
             }
@@ -363,9 +375,9 @@ public class ChatRoomManager implements Serializable {
      */
     public void sendMediaMessage(String httpSessionId, Long imageNumber, MediaType mediaType) {
 
-        ChatRoomUser user = HTTPSESSION_CONNECTIONS.get(httpSessionId);
-        for (Session session : WEBSOCKET_CONNECTIONS.keySet()) {
-            if (WEBSOCKET_CONNECTIONS.get(session) == user) {
+        ChatRoomUser user = httpSessionConnections.get(httpSessionId);
+        for (Session session : websocketConnections.keySet()) {
+            if (websocketConnections.get(session) == user) {
                 String message = messageDispatcher.buildMediaMessage(user, imageNumber, mediaType);
                 continueConversation(session, message, mediaType);
                 break;
@@ -382,16 +394,16 @@ public class ChatRoomManager implements Serializable {
      */
     public void exitChatApplication(String httpSessionId) {
 
-        if (HTTPSESSION_CONNECTIONS.get(httpSessionId) != null) {
-            for (Session session : WEBSOCKET_CONNECTIONS.keySet()) {
-                if (WEBSOCKET_CONNECTIONS.get(session).getUsername()
-                        .equals(HTTPSESSION_CONNECTIONS.get(httpSessionId).getUsername())) {
+        if (httpSessionConnections.get(httpSessionId) != null) {
+            for (Session session : websocketConnections.keySet()) {
+                if (websocketConnections.get(session).getUsername()
+                        .equals(httpSessionConnections.get(httpSessionId).getUsername())) {
                     leaveChatRoom(session);
                     logMapCountsOnHTTPSessionRemoval(httpSessionId);
                 }
             }
-            userService.recordSignOut(HTTPSESSION_CONNECTIONS.get(httpSessionId).getUsername());
-            HTTPSESSION_CONNECTIONS.remove(httpSessionId);
+            userService.recordSignOut(httpSessionConnections.get(httpSessionId).getUsername());
+            httpSessionConnections.remove(httpSessionId);
         }
         logMapCountsOnHTTPSessionRemoval(httpSessionId);
     }
@@ -404,7 +416,7 @@ public class ChatRoomManager implements Serializable {
      */
     public ChatRoomUser findChatRoomUser(String userName) {
 
-        for (ChatRoomUser user : HTTPSESSION_CONNECTIONS.values()) {
+        for (ChatRoomUser user : httpSessionConnections.values()) {
             if (user.getUsername().equals(userName)) {
                 return user;
             }
@@ -427,7 +439,7 @@ public class ChatRoomManager implements Serializable {
             status.setStatus(ProcessingStatus.ERROR);
             status.setDetails("The chat room user is not found.");
         } else {
-            for (Entry<Session, ChatRoomUser> entry : WEBSOCKET_CONNECTIONS.entrySet()) {
+            for (Entry<Session, ChatRoomUser> entry : websocketConnections.entrySet()) {
                 if (entry.getValue().equals(user)) {
                     status.setStatus(ProcessingStatus.ERROR);
                     status.setDetails("You were already in a chat room.  You are now returned to the lobby.");
@@ -445,7 +457,7 @@ public class ChatRoomManager implements Serializable {
      */
     public String findHostUsername(String roomName) {
 
-        for (ChatRoom r : ACTIVE_CHAT_ROOMS.keySet()) {
+        for (ChatRoom r : activeChatRooms.keySet()) {
             if (r.getRoomName().equals(roomName)) {
                 return r.getRoomCreator().getUsername();
             }
@@ -462,10 +474,10 @@ public class ChatRoomManager implements Serializable {
     public ArrayList<String> getUsernamesForRoom(String roomName) {
 
         ArrayList<String> usernames = new ArrayList<>();
-        for (ChatRoom room : ACTIVE_CHAT_ROOMS.keySet()) {
+        for (ChatRoom room : activeChatRooms.keySet()) {
             if (room.getRoomName().equals(roomName)) {
-                for (Session session : ACTIVE_CHAT_ROOMS.get(room)) {
-                    usernames.add(WEBSOCKET_CONNECTIONS.get(session).getUsername());
+                for (Session session : activeChatRooms.get(room)) {
+                    usernames.add(websocketConnections.get(session).getUsername());
                 }
                 break;
             }
@@ -479,7 +491,7 @@ public class ChatRoomManager implements Serializable {
      * @return the active chat rooms
      */
     public Map<ChatRoom, ArrayList<Session>> getActiveChatRooms() {
-        return ACTIVE_CHAT_ROOMS;
+        return activeChatRooms;
     }
 
     /**
@@ -511,6 +523,6 @@ public class ChatRoomManager implements Serializable {
         Logger.getLogger(ChatRoomManager.class.getName()).log(Level.INFO, "Objects associated with "
                 + "session, {0}, have been removed. Current HTTP session connections count: {1} Current WebSocket "
                 + "connection count: {2} Current active chat rooms count: {3}", new Object[]{httpSessionId,
-                    HTTPSESSION_CONNECTIONS.size(), WEBSOCKET_CONNECTIONS.size(), ACTIVE_CHAT_ROOMS.size()});
+                    httpSessionConnections.size(), websocketConnections.size(), activeChatRooms.size()});
     }
 }

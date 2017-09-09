@@ -39,12 +39,12 @@ public class RegistrationEmailMessenger implements EmailMessenger {
     /**
      * The primary message builder
      */
-    private static final StringBuilder PRIMARY_MESSAGE_BUILDER = new StringBuilder();
+    private final StringBuilder primaryMessageBuilder = new StringBuilder();
 
     /**
      * The alternate message builder
      */
-    private static final StringBuilder ALTERNATE_MESSAGE_BUILDER = new StringBuilder();
+    private final StringBuilder alternateMessageBuilder = new StringBuilder();
 
     /**
      * The new chat room user
@@ -69,15 +69,15 @@ public class RegistrationEmailMessenger implements EmailMessenger {
         this.activationLink = MessageFormat.format("http://localhost:8080/ChatRoom/account?action=activate&code={0}", 
                 registrationCode);
 
-        PRIMARY_MESSAGE_BUILDER.append("<h3>New User Account</h3>");
-        PRIMARY_MESSAGE_BUILDER.append("<p>Hello {0},</p>");
-        PRIMARY_MESSAGE_BUILDER.append("<p>Thank you for registering with ChatRoom.  Your username is {1}.  Please visit the link below to activate this registration.</p>");
-        PRIMARY_MESSAGE_BUILDER.append("<a href=\"{2}\" target=\"_blank\">Activate Now</a>");
+        primaryMessageBuilder.append("<h3>New User Account</h3>");
+        primaryMessageBuilder.append("<p>Hello {0},</p>");
+        primaryMessageBuilder.append("<p>Thank you for registering with ChatRoom.  Your username is {1}.  Please visit the link below to activate this registration.</p>");
+        primaryMessageBuilder.append("<a href=\"{2}\" target=\"_blank\">Activate Now</a>");
 
-        ALTERNATE_MESSAGE_BUILDER.append("New User Account\n");
-        ALTERNATE_MESSAGE_BUILDER.append("Hello {0},\n");
-        ALTERNATE_MESSAGE_BUILDER.append("Thank you for registering with ChatRoom.  Your username is {1}.  Please visit the URL below to activate this registration.\n");
-        ALTERNATE_MESSAGE_BUILDER.append("{2}");
+        alternateMessageBuilder.append("New User Account\n");
+        alternateMessageBuilder.append("Hello {0},\n");
+        alternateMessageBuilder.append("Thank you for registering with ChatRoom.  Your username is {1}.  Please visit the URL below to activate this registration.\n");
+        alternateMessageBuilder.append("{2}");
     }
 
     /**
@@ -110,11 +110,11 @@ public class RegistrationEmailMessenger implements EmailMessenger {
             email.setSubject("ChatRoom Registration");
 
             // set the primary HTML message
-            email.setHtmlMsg(MessageFormat.format(PRIMARY_MESSAGE_BUILDER.toString(),
+            email.setHtmlMsg(MessageFormat.format(primaryMessageBuilder.toString(),
                     recipient.getFirstName(), recipient.getUsername(), activationLink));
 
             // set the alternative text message
-            email.setTextMsg(MessageFormat.format(ALTERNATE_MESSAGE_BUILDER.toString(),
+            email.setTextMsg(MessageFormat.format(alternateMessageBuilder.toString(),
                     recipient.getFirstName(), recipient.getUsername(), activationLink));
 
             email.send();

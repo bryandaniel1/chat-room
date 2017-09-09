@@ -38,12 +38,12 @@ public class AdministratorEmailMessenger implements EmailMessenger {
     /**
      * The primary message builder
      */
-    private static final StringBuilder PRIMARY_MESSAGE_BUILDER = new StringBuilder();
+    private final StringBuilder primaryMessageBuilder = new StringBuilder();
 
     /**
      * The alternate message builder
      */
-    private static final StringBuilder ALTERNATE_MESSAGE_BUILDER = new StringBuilder();
+    private final StringBuilder alternateMessageBuilder = new StringBuilder();
 
     /**
      * The new chat room user
@@ -67,11 +67,11 @@ public class AdministratorEmailMessenger implements EmailMessenger {
         this.recipient = recipient;
         this.message = message;
 
-        PRIMARY_MESSAGE_BUILDER.append("<h3>Administrator Message</h3>");
-        PRIMARY_MESSAGE_BUILDER.append("<p>{0}</p>");
+        primaryMessageBuilder.append("<h3>Administrator Message</h3>");
+        primaryMessageBuilder.append("<p>{0}</p>");
 
-        ALTERNATE_MESSAGE_BUILDER.append("Administrator Message\n");
-        ALTERNATE_MESSAGE_BUILDER.append("{0}\n");
+        alternateMessageBuilder.append("Administrator Message\n");
+        alternateMessageBuilder.append("{0}\n");
     }
 
     /**
@@ -104,10 +104,10 @@ public class AdministratorEmailMessenger implements EmailMessenger {
             email.setSubject("ChatRoom Administrator Message");
 
             // set the primary HTML message
-            email.setHtmlMsg(MessageFormat.format(PRIMARY_MESSAGE_BUILDER.toString(), message));
+            email.setHtmlMsg(MessageFormat.format(primaryMessageBuilder.toString(), message));
 
             // set the alternative text message
-            email.setTextMsg(MessageFormat.format(ALTERNATE_MESSAGE_BUILDER.toString(), message));
+            email.setTextMsg(MessageFormat.format(alternateMessageBuilder.toString(), message));
 
             email.send();
 
