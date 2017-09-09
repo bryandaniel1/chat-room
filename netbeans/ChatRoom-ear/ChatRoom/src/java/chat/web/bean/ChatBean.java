@@ -191,7 +191,7 @@ public class ChatBean implements Serializable {
      * image if one is stored.
      */
     public void checkValidation() {
-        if (FacesContext.getCurrentInstance().isValidationFailed() == true) {
+        if (FacesContext.getCurrentInstance().isValidationFailed()) {
             setFileToUpload(null);
             setFileValid(false);
             setImageReadyForPreview(false);
