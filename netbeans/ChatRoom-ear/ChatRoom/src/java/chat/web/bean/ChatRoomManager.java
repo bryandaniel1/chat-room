@@ -65,17 +65,17 @@ public class ChatRoomManager implements Serializable {
     /**
      * The map of active chat rooms
      */
-    private static Map<ChatRoom, ArrayList<Session>> activeChatRooms;
+    private Map<ChatRoom, ArrayList<Session>> activeChatRooms;
 
     /**
      * The chat room users mapped by WebSocket session
      */
-    private static Map<Session, ChatRoomUser> websocketConnections;
+    private Map<Session, ChatRoomUser> websocketConnections;
 
     /**
      * The chat room users mapped by HTTP session ID
      */
-    private static Map<String, ChatRoomUser> httpSessionConnections;
+    private Map<String, ChatRoomUser> httpSessionConnections;
 
     /**
      * The chat room service
