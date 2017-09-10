@@ -366,19 +366,19 @@ public class ChatRoomManager implements Serializable {
     }
 
     /**
-     * This method manages the task of creating and sending messages pertaining
-     * to uploaded images.
+     * This method manages the task of creating and sending messages consisting
+     * of uploaded media.
      *
      * @param httpSessionId the HTTP session ID
-     * @param imageNumber the number designated for the image
+     * @param itemNumber the number designated for the media item
      * @param mediaType the media type
      */
-    public void sendMediaMessage(String httpSessionId, Long imageNumber, MediaType mediaType) {
+    public void sendMediaMessage(String httpSessionId, Long itemNumber, MediaType mediaType) {
 
         ChatRoomUser user = httpSessionConnections.get(httpSessionId);
         for (Session session : websocketConnections.keySet()) {
             if (websocketConnections.get(session) == user) {
-                String message = messageDispatcher.buildMediaMessage(user, imageNumber, mediaType);
+                String message = messageDispatcher.buildMediaMessage(user, itemNumber, mediaType);
                 continueConversation(session, message, mediaType);
                 break;
             }
