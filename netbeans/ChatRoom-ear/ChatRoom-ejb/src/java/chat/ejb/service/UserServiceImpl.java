@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -40,6 +42,12 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 @Stateless(name = "userService")
 public class UserServiceImpl implements UserService {
+    
+    /**
+     * The EJB context
+     */
+    @Resource
+    private EJBContext context;
 
     /**
      * The entity manager for the chat room entities
@@ -180,10 +188,12 @@ public class UserServiceImpl implements UserService {
             Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE,
                     "UserServiceImpl: A ValidationException occurred in the persist method: {0}", 
                     ve.getMessage());
+            context.setRollbackOnly();
         } catch (Exception e) {
             Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE,
                     "UserServiceImpl: An Exception occurred in the persist method: {0}", 
                     e.getMessage());
+            context.setRollbackOnly();
         }
         return false;
     }
