@@ -99,7 +99,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         List<Conversation> conversations = null;
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT @row_number := @row_number + 1 AS conversation_index, conversations.* ");
+        stringBuilder.append("SELECT CAST(@row_number := @row_number + 1 AS DECIMAL) AS conversation_index, conversations.* ");
         stringBuilder.append("FROM (SELECT DATE(m.time_written) AS day, m.room_name AS room ");
         stringBuilder.append("FROM Message m ");
         stringBuilder.append("WHERE m.username = ? ");

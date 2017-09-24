@@ -137,7 +137,7 @@ public class AdminFilter implements Filter {
             if (isAdmin) {
                 chain.doFilter(request, response);
             } else {
-                httpResponse.sendRedirect(nonAdminPath);
+                httpRequest.getRequestDispatcher(nonAdminPath).forward(request, response);
             }
         } catch (IOException | ServletException t) {
             problem = t;

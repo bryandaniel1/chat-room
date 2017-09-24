@@ -102,14 +102,14 @@ public class UserFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
+        
+        doBeforeProcessing(request, response);
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpSession session = httpRequest.getSession(false);
         PrintWriter writer = httpResponse.getWriter();
-        String expiredPath = "/ChatRoom/expired.xhtml";
-
-        doBeforeProcessing(request, response);
+        String signInPath = "/ChatRoom/index.xhtml";
 
         if (debug) {
             log(MessageFormat.format("UserFilter.doFilter: {0} requesting resource {1}",
@@ -127,15 +127,15 @@ public class UserFilter implements Filter {
                 chain.doFilter(request, response);
             } else {
 
-                // redirecting user with null ID to the expired page
+                // redirecting user with null ID to the sign-in page
                 if ("partial/ajax".equals(httpRequest.getHeader("Faces-Request"))) {
                     String version = "1.0";
                     String encoding = "UTF-8";
                     httpResponse.setContentType("text/xml");
                     writer.append(MessageFormat.format("<?xml version=\"{0}\" encoding=\"{1}\"?>", version, encoding))
-                            .write(MessageFormat.format("<partial-response><redirect url=\"{0}\"></redirect></partial-response>", expiredPath));
+                            .write(MessageFormat.format("<partial-response><redirect url=\"{0}\"></redirect></partial-response>", signInPath));
                 } else {
-                    httpResponse.sendRedirect(expiredPath);
+                    httpResponse.sendRedirect(signInPath);
                 }
             }
         } catch (IOException | ServletException t) {

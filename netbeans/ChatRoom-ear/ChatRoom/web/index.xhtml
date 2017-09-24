@@ -1,55 +1,12 @@
-<ui:composition template="/WEB-INF/template.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <ui:define name="content" >
-        <h2>Sign In Page</h2>
-        <h:form>
-            <table id="signInTable">
-                <tbody>
-                    <tr>
-                        <td>
-                            <h:outputLabel for="username">Username:</h:outputLabel>
-                            <h:inputText id="username" size="20" required="true" requiredMessage="Username is required."
-                                         value="#{userBean.user.userCredentials.username}">
-                            </h:inputText>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h:outputLabel for="password">Password:</h:outputLabel>
-                            <h:inputSecret id="password" size="20" required="true" requiredMessage="Password is required."
-                                           value="#{userBean.user.userCredentials.password}">
-                            </h:inputSecret>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h:commandButton styleClass="ui-button ui-corner-all ui-widget" value="Sign In" action="#{userBean.authenticateUser}"/>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </h:form>
-        <h:form>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h:commandButton styleClass="ui-button ui-corner-all ui-widget" value="Register" action="register"/>
-                        </td>                  
-                    </tr>
-                </tbody>
-            </table>
-        </h:form>
-        <div id="errorMessages">
-            <h:messages styleClass="ui-state-error"/>
-        </div>
-        <c:if test="${not empty message}">
-            <p>${message}</p>
-        </c:if>
-    </ui:define>
-</ui:composition>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title></title>
+        <meta http-equiv="Refresh" content="0; URL=#{request.contextPath}/signin/"/>
+    </h:head>
+    <h:body>
+    </h:body>
+</html>
 

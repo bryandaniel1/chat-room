@@ -12,5 +12,13 @@
             <from-action>exitAdministration</from-action>
             <to-view-id>/lobby/index.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-action>#{userBean.authenticateUser}</from-action>
+            <from-outcome>failed</from-outcome>
+            <to-view-id>/WEB-INF/errorpages/failed.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
+    <factory>
+        <exception-handler-factory>org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory</exception-handler-factory>
+    </factory>
 </faces-config>

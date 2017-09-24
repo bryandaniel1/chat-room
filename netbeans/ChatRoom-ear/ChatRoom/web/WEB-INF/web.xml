@@ -4,6 +4,10 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    <context-param>
+        <param-name>org.omnifaces.EXCEPTION_TYPES_TO_IGNORE_IN_LOGGING</param-name>
+        <param-value>javax.faces.application.ViewExpiredException</param-value>
+    </context-param>
     <filter-mapping>
         <filter-name>HeadersFilter</filter-name>
         <url-pattern />
@@ -27,10 +31,18 @@
     </servlet-mapping>
     <error-page>
         <error-code>404</error-code>
-        <location>/error-404.xhtml</location>
+        <location>/WEB-INF/errorpages/error-404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/errorpages/error-500.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/WEB-INF/errorpages/expired.xhtml</location>
     </error-page>
     <session-config>
-        <session-timeout>15</session-timeout>
+        <session-timeout>1</session-timeout>
         <cookie-config>
             <http-only>true</http-only>
         </cookie-config>

@@ -26,12 +26,12 @@ import java.sql.Date;
  * @author Bryan Daniel
  */
 public class Conversation implements Serializable {
-    
+
     /**
      * Serial version UID
      */
     private static final long serialVersionUID = -2792505625064806157L;
-    
+
     /**
      * The index of this conversation
      */
@@ -41,7 +41,7 @@ public class Conversation implements Serializable {
      * The day the conversation occurred
      */
     private Date dateOccurred;
-    
+
     /**
      * The name of the room in which the conversation occurred
      */
@@ -49,13 +49,13 @@ public class Conversation implements Serializable {
 
     /**
      * Parameterized constructor
-     * 
+     *
      * @param index the index
      * @param dateOccurred the day
      * @param roomName the room name
      */
-    public Conversation(Double index, Date dateOccurred, String roomName) {
-        this.index = new BigDecimal(index);
+    public Conversation(BigDecimal index, Date dateOccurred, String roomName) {
+        this.index = index;
         this.dateOccurred = dateOccurred;
         this.roomName = roomName;
     }

@@ -31,6 +31,9 @@ section, div {
 #signInTable, #registerTable {
     margin-top: 2em;
 }
+#aboutText {
+    margin: 2%;
+}
 #registerTable td label{
     float: right;
 }
