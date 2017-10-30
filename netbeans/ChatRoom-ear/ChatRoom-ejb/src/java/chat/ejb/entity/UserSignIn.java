@@ -25,6 +25,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * This entity class holds a user's sign-in time.
@@ -49,6 +50,7 @@ public class UserSignIn implements Serializable {
     protected UserSignInPK userSignInPK;
     @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
     @ManyToOne(optional = false)
+    @JsonManagedReference
     private ChatRoomUser chatRoomUser;
 
     /**

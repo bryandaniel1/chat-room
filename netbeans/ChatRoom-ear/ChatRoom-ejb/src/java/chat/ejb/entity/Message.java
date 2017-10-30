@@ -35,7 +35,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * This entity class represents a user message delivered in a chat room.
@@ -88,11 +88,11 @@ public class Message implements Serializable {
     private boolean video;
     @JoinColumn(name = "username", referencedColumnName = "username")
     @ManyToOne(optional = false)
-    @JsonBackReference
+    @JsonManagedReference
     private ChatRoomUser username;
     @JoinColumn(name = "room_name", referencedColumnName = "room_name")
     @ManyToOne(optional = false)
-    @JsonBackReference
+    @JsonManagedReference
     private ChatRoom roomName;
 
     /**

@@ -28,6 +28,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * This entity class represents a user's account.
@@ -71,6 +72,7 @@ public class UserAccount implements Serializable {
     private boolean activated;
     @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
     @OneToOne(optional = false)
+    @JsonManagedReference
     private ChatRoomUser chatRoomUser;
 
     /**

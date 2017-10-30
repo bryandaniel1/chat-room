@@ -34,8 +34,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * This entity class represents a chat room user.
@@ -83,17 +83,22 @@ public class ChatRoomUser implements Serializable {
     @Column(name = "user_role")
     private String userRole;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "username")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Message> messageList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roomCreator")
+    @JsonBackReference
     private List<ChatRoom> chatRoomList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "chatRoomUser")
+    @JsonBackReference
     private UserCredentials userCredentials;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "chatRoomUser")
+    @JsonBackReference
     private List<UserSignOut> userSignOutList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "chatRoomUser")
+    @JsonBackReference
     private List<UserSignIn> userSignInList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "chatRoomUser")
+    @JsonBackReference
     private UserAccount userAccount;
 
     /**

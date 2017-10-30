@@ -35,6 +35,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
@@ -64,10 +65,11 @@ public class ChatRoom implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeCreated;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roomName")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Message> messageList;
     @JoinColumn(name = "room_creator", referencedColumnName = "username")
     @ManyToOne(optional = false)
+    @JsonManagedReference
     private ChatRoomUser roomCreator;
 
     /**

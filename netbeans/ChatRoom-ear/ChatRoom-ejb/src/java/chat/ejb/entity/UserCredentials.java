@@ -28,6 +28,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  * This entity class stores a user's credentials.
@@ -57,6 +58,7 @@ public class UserCredentials implements Serializable {
     private String password;
     @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
     @OneToOne(optional = false)
+    @JsonManagedReference
     private ChatRoomUser chatRoomUser;
 
     /**
