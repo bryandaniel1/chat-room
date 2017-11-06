@@ -6,12 +6,14 @@ This chat room application provides functionality to support multiple chat rooms
 
 <figure>
   <img src="img/sign-in.png" alt="Sign In"/>
-  <figcaption>Sign In</figcaption>
-</figure>
+  <figcaption>Figure 1. Sign In</figcaption>
+</figure><br>
+<br>
 <figure>
   <img src="img/chat-room.png" alt="Chat Room"/>
-  <figcaption>Chat Room</figcaption>
-</figure>
+  <figcaption>Figure 2. Chat Room</figcaption>
+</figure><br>
+<br>
 
 ## Purpose
 
