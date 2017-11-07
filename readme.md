@@ -24,9 +24,10 @@ The purpose of this repository is to provide example implementations of various 
 	c) Java Persistence API (JPA)
 	d) WebSockets
 	e) EJB Timer Service
-	f) jBCrypt
-	g) OmniFaces
-	h) Apache Commons Email
+	f) Concurrency Utilities for Java EE
+	g) jBCrypt
+	h) OmniFaces
+	i) Apache Commons Email
 
 ## Setup and Run Instructions
 
