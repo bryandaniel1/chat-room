@@ -55,12 +55,12 @@ public class ChatRoomManager implements Serializable {
     /**
      * The string indicating a user hosting a room
      */
-    private static final String HOST_ROLE = "host";
+    public static final String HOST_ROLE = "host";
 
     /**
      * The string indicating a guest
      */
-    private static final String GUEST_ROLE = "guest";
+    public static final String GUEST_ROLE = "guest";
 
     /**
      * The map of active chat rooms
