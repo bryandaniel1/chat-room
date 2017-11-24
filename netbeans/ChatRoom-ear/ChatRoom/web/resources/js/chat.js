@@ -24,11 +24,10 @@ function init() {
     server = new WebSocket("wss://localhost:8484/ChatRoom/chatroom/"
             + roomName + "/" + username + "/" + chatRole);
 
+    // no operation on open
     server.onopen = function (event) {
-        var message = JSON.parse(event.data);
-        var content = message.message;
-        appendToChatLog(content);
     };
+    
     server.onmessage = function (event) {
         var returnToLobby = false;
         var message = JSON.parse(event.data);
@@ -98,11 +97,13 @@ function init() {
             sendUserToLobby();
         }
     };
+    
     server.onerror = function (event) {
         alert("Error: " + evt.data);
     };
+
+    // no operation on close
     server.onclose = function (event) {
-        appendToChatLog("The room is now closed.  You may return to the lobby.");
     };
 }
 

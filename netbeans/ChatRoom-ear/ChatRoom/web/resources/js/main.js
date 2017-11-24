@@ -49,5 +49,6 @@ $(document).ready(function () {
     $('section').addClass("ui-corner-all");
     $('div').addClass("ui-corner-all");
     $('button').button();
+    $(".invitationSelection").DataTable();
 });
 

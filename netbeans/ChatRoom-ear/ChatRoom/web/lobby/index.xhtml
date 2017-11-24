@@ -47,6 +47,20 @@
                             <h:outputLabel for="roomNameInput" value="Room Name: " />
                             <h:inputText id="roomNameInput" value="#{lobbyBean.userBean.selectedRoom}" 
                                          required="true" requiredMessage="A room name is requried to open a chat room."/>
+                            <h:dataTable value="#{lobbyBean.allOtherUsernames.entrySet().toArray()}" var="username" styleClass="invitationSelection">
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Select Invitees" />
+                                    </f:facet>
+                                    <h:selectBooleanCheckbox value="#{lobbyBean.allOtherUsernames[username.key]}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Username" />
+                                    </f:facet>
+                                    <h:outputText value="#{username.key}" />
+                                </h:column>
+                            </h:dataTable>
                             <h:commandButton styleClass="ui-button ui-corner-all ui-widget" value="Submit" action="#{lobbyBean.processHost()}">
                                 <f:setPropertyActionListener target="#{lobbyBean.userBean.chatRole}" value="#{chatRoomManager.hostRole}" />
                             </h:commandButton>

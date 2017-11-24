@@ -78,6 +78,18 @@ public class ChatRoomManager implements Serializable {
     private Map<String, ChatRoomUser> httpSessionConnections;
 
     /**
+     * The message dispatcher
+     */
+    @Inject
+    private MessageDispatcher messageDispatcher;
+
+    /**
+     * The invitation manager
+     */
+    @Inject
+    private InvitationManager invitationManager;
+
+    /**
      * The chat room service
      */
     @EJB(beanName = "chatRoomService")
@@ -88,12 +100,6 @@ public class ChatRoomManager implements Serializable {
      */
     @EJB(beanName = "userService")
     private UserService userService;
-
-    /**
-     * The message dispatcher
-     */
-    @Inject
-    private MessageDispatcher messageDispatcher;
 
     /**
      * This method constructs the maps for active chat rooms, WebSocket
@@ -278,6 +284,7 @@ public class ChatRoomManager implements Serializable {
                         chatRoomService.storeMessage(m);
                     }
                     activeChatRooms.remove(room);
+                    invitationManager.removeInvitationList(room.getRoomName());
                 } else {
                     if (session.isOpen()) {
                         Message m = new Message();
@@ -316,9 +323,10 @@ public class ChatRoomManager implements Serializable {
      *
      * @param user the user
      * @param roomName the room name
+     * @param invitees the invited users
      * @return the processing status
      */
-    public ProcessingStatus processHost(ChatRoomUser user, String roomName) {
+    public ProcessingStatus processHost(ChatRoomUser user, String roomName, ArrayList<String> invitees) {
 
         ProcessingStatus status = new ProcessingStatus();
         status.setStatus(ProcessingStatus.SUCCESS);
@@ -332,6 +340,7 @@ public class ChatRoomManager implements Serializable {
             status.setDetails("A chat room with that name is already established by another user.");
             return status;
         }
+        invitationManager.addInvitationList(roomName, invitees);
         return status;
     }
 
@@ -360,6 +369,11 @@ public class ChatRoomManager implements Serializable {
         if (chatRoom == null) {
             status.setStatus(ProcessingStatus.ERROR);
             status.setDetails("The selected chat room is no longer open.");
+            return status;
+        }
+        if (!invitationManager.verifyInvitation(roomName, user.getUsername())) {
+            status.setStatus(ProcessingStatus.ERROR);
+            status.setDetails("You have not been invited to this chat room.");
             return status;
         }
         return status;
@@ -486,6 +500,21 @@ public class ChatRoomManager implements Serializable {
     }
 
     /**
+     * This method logs counts of the maps for active chat rooms, WebSocket
+     * session connections, HTTP session connections, and chat room invitation
+     * lists. This method is invoked when an HTTP session is removed.
+     *
+     * @param httpSessionId the HTTP session ID
+     */
+    private void logMapCountsOnHTTPSessionRemoval(String httpSessionId) {
+        Logger.getLogger(ChatRoomManager.class.getName()).log(Level.INFO, "Objects associated with "
+                + "session, {0}, have been removed. Current HTTP session connections count: {1} Current WebSocket "
+                + "connection count: {2} Current active chat rooms count: {3} Current number of invitation lists: {4}",
+                new Object[]{httpSessionId, httpSessionConnections.size(), websocketConnections.size(),
+                    activeChatRooms.size(), invitationManager.reportInvitationListsSize()});
+    }
+
+    /**
      * This method returns the active chat rooms.
      *
      * @return the active chat rooms
@@ -510,19 +539,5 @@ public class ChatRoomManager implements Serializable {
      */
     public String getGuestRole() {
         return GUEST_ROLE;
-    }
-
-    /**
-     * This method logs counts of the maps for active chat rooms, WebSocket
-     * session connections, and HTTP session connections. This method is invoked
-     * when an HTTP session is removed.
-     *
-     * @param httpSessionId the HTTP session ID
-     */
-    private void logMapCountsOnHTTPSessionRemoval(String httpSessionId) {
-        Logger.getLogger(ChatRoomManager.class.getName()).log(Level.INFO, "Objects associated with "
-                + "session, {0}, have been removed. Current HTTP session connections count: {1} Current WebSocket "
-                + "connection count: {2} Current active chat rooms count: {3}", new Object[]{httpSessionId,
-                    httpSessionConnections.size(), websocketConnections.size(), activeChatRooms.size()});
     }
 }

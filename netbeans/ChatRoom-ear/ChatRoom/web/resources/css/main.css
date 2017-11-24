@@ -125,3 +125,6 @@ table {
 .emailForm{
     display: none;
 }
+.invitationSelection{
+    border-spacing: 0.5em;
+}

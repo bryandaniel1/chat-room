@@ -16,10 +16,15 @@
 package chat.web.bean;
 
 import chat.ejb.entity.ChatRoom;
+import chat.ejb.entity.ChatRoomUser;
+import chat.ejb.service.UserService;
 import chat.web.model.ProcessingStatus;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -42,6 +47,16 @@ public class LobbyBean implements Serializable {
     private static final long serialVersionUID = -5981183756230804332L;
 
     /**
+     * The list of chat rooms
+     */
+    private ArrayList<ChatRoom> rooms;
+
+    /**
+     * The list of other chat room usernames
+     */
+    private Map<String, Boolean> allOtherUsernames;
+
+    /**
      * The chat room manager
      */
     @Inject
@@ -52,15 +67,16 @@ public class LobbyBean implements Serializable {
      */
     @Inject
     private UserBean userBean;
-
+    
     /**
-     * The list of chat rooms
+     * The user service
      */
-    private ArrayList<ChatRoom> rooms;
+    @EJB
+    private UserService userService;
 
     /**
      * This method executes after construction to retrieve the list of names for
-     * active rooms.
+     * active rooms and the list of all other usernames.
      */
     @PostConstruct
     public void init() {
@@ -68,6 +84,12 @@ public class LobbyBean implements Serializable {
         userBean.setSelectedRoom(null);
         rooms = new ArrayList<>();
         rooms.addAll(manager.getActiveChatRooms().keySet());
+        allOtherUsernames = new HashMap<>();
+        for(ChatRoomUser user: userService.findAllUsers()){
+            if(!userBean.getUser().getUsername().equals(user.getUsername())){
+                allOtherUsernames.put(user.getUsername(), false);
+            }            
+        }
     }
 
     /**
@@ -77,9 +99,21 @@ public class LobbyBean implements Serializable {
      * @return the target page
      */
     public String processHost() {
+        
+        ArrayList<String> invitees = new ArrayList<>();
+        for(String username: allOtherUsernames.keySet()){
+            if(allOtherUsernames.get(username)){
+                invitees.add(username);
+            }
+        }        
+        if(invitees.isEmpty()){
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage("You must select at least one invitee to open a chat room"));
+            return "index";
+        }
 
         ProcessingStatus status = manager.processHost(userBean.getUser(),
-                userBean.getSelectedRoom());
+                userBean.getSelectedRoom(), invitees);
         if (status.getStatus().equals(ProcessingStatus.ERROR)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(status.getDetails()));
             return "index";
@@ -138,5 +172,23 @@ public class LobbyBean implements Serializable {
      */
     public void setRooms(ArrayList<ChatRoom> rooms) {
         this.rooms = rooms;
+    }
+
+    /**
+     * Get the value of allOtherUsernames
+     *
+     * @return the value of allOtherUsernames
+     */
+    public Map<String, Boolean> getAllOtherUsernames() {
+        return allOtherUsernames;
+    }
+
+    /**
+     * Set the value of allOtherUsernames
+     *
+     * @param allOtherUsernames the new value of allOtherUsernames
+     */
+    public void setAllOtherUsernames(Map<String, Boolean> allOtherUsernames) {
+        this.allOtherUsernames = allOtherUsernames;
     }
 }
