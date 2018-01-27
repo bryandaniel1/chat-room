@@ -188,7 +188,6 @@ public class UserServiceImpl implements UserService {
             Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE,
                     "UserServiceImpl: A ValidationException occurred in the persist method: {0}", 
                     ve.getMessage());
-            context.setRollbackOnly();
         } catch (Exception e) {
             Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE,
                     "UserServiceImpl: An Exception occurred in the persist method: {0}", 
