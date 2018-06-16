@@ -48,12 +48,13 @@
                             <div id="#{user.username}emailFormDiv" class="emailForm">
                                 <h:form>
                                     <p><h:outputText value="Send an email message to #{user.username}." /></p>
-                                    <h:outputLabel for="#{user.username}emailMessageInput" value="Email Message: " />
+                                    <h:outputLabel for="#{user.username}emailMessageInput" value="Email Message: " 
+                                                   styleClass="emailMessageLabel" />
                                     <h:inputTextarea id="#{user.username}emailMessageInput" value="#{administrationBean.emailMessage}" 
                                                      required="true" requiredMessage="The email message is required.">
                                         <f:validator validatorId="emailMessageValidator" />
                                     </h:inputTextarea>
-                                    <h:commandButton value="Send Email Message" styleClass="ui-button ui-corner-all ui-widget" 
+                                    <h:commandButton value="Send Email Message" styleClass="ui-button ui-corner-all ui-widget emailSendButton" 
                                                      action="#{administrationBean.sendEmailMessage(user)}">
                                         <f:ajax execute="@form" render="@form :successMessage :errorMessages" 
                                                 onevent="function(data) { handleAdministratorEmailAjaxCall(data, '#{user.username}') }"/>

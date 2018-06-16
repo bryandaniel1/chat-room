@@ -125,6 +125,12 @@ table {
 .emailForm{
     display: none;
 }
+.emailSendButton{
+    margin: 10px;
+}
+.emailMessageLabel{
+    vertical-align: top;
+}
 .invitationSelection{
     border-spacing: 0.5em;
 }
