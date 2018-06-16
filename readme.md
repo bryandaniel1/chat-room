@@ -2,7 +2,7 @@
 
 ## System Overview
 
-This chat room application provides functionality to support multiple chat rooms running on WebSockets.  The application includes a registration process for users to create accounts and a sign-in process for users to enter a lobby where chat sessions can be created or joined.  A history page is available for users to view previous conversations.  Users with the administrator role have access to the administrator page where user accounts can be activated or deactivated and email messages can be written and sent to users.  A timed job is also run daily to produce spreadsheet records of chat histories.
+This chat room application provides functionality to support multiple chat rooms running on WebSockets.  For the Maven version of this project, see [chat-room-maven](https://github.com/bryandaniel1/chat-room-maven "chat-room-maven").  The application includes a registration process for users to create accounts and a sign-in process for users to enter a lobby where chat sessions can be created or joined.  A history page is available for users to view previous conversations.  Users with the administrator role have access to the administrator page where user accounts can be activated or deactivated and email messages can be written and sent to users.  A timed job is also run daily to produce spreadsheet records of chat histories.
 
 <figure>
   <img src="img/sign-in.png" alt="Sign In"/>
