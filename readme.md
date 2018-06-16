@@ -221,6 +221,6 @@ https://netbeans.org/downloads/
 
 **c)** email password encryption:
 
- - To generate an encrypted password with a 16-character string as required for the application configuration, the file, "PasswordEncryptor.java" can be modified and run.
+ - To generate an encrypted password with a 16-character string as required for the application configuration, the file, [PasswordEncryptor.java](https://github.com/bryandaniel1/chat-room/blob/master/password-encryptor/PasswordEncryptor.java "PasswordEncryptor.java") can be modified and run.
 
 
