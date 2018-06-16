@@ -37,7 +37,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class MessageDispatcher implements Serializable {
 
     /**
-     * Indicates he media type sent in a message
+     * Indicates the media type sent in a message
      */
     public enum MediaType {
 
