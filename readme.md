@@ -107,6 +107,8 @@ https://netbeans.org/downloads/
 	| databaseName  | chat_room  |
 	| user  | chat_room_db_user  |
 	| password  | 8B2R0li!dS@x26{  |
+
+        - Ensure the url property is correct, i.e. "jdbc:mysql://localhost:3306/chat_room"
 		
 		- Click on "Save" to save the new properties
 		

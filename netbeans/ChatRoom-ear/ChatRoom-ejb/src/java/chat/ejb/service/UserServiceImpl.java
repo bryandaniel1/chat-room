@@ -110,6 +110,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<ChatRoomUser> findAllUsers(){
+        entityManager.getEntityManagerFactory().getCache().evictAll();
         return entityManager.createNamedQuery("ChatRoomUser.findAllOrderByUsername")
                 .getResultList();
     }

@@ -21,7 +21,7 @@ function init() {
     chatSubstring = $("#chatSubstring").val();
     enterSubstring = $("#enterSubstring").val();
     hostUsername = $("#hostUsername").val();
-    server = new WebSocket("wss://localhost:8484/ChatRoom/chatroom/"
+    server = new WebSocket("wss://localhost:8181/ChatRoom/chatroom/"
             + roomName + "/" + username + "/" + chatRole);
 
     // no operation on open
