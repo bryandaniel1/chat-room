@@ -98,6 +98,8 @@ https://netbeans.org/downloads/
 
 **b)** JDBC Configuration
 
+ - Extract the downloaded MySQL Connector and relocate the JAR file to the /glassfish/domains/domain1/lib/ext folder of the GlassFish installation.
+
  - To configure the database connectivity for the application, remain in the GlassFish Console to perform the next steps.
  
  		 - Expand the "Resources" node in the Common Tasks menu and select "JDBC Connection Pools" within the "JDBC" menu option.
