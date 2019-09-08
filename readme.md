@@ -72,9 +72,17 @@ https://netbeans.org/downloads/
 
 **a)** System Properties
 
- - The application requires a system property defining the location of the configuration file required by the application.  To establish this property, you can use the following procedure.
+ - To run the application server administration console, you can use the IDE or start a standalone installation. 
+
+        To use the IDE, perform the following steps.
 
 		- In the Services view of NetBeans, expand the Servers node, right-click the GlassFish Server, and select "Start".
+
+        To use a standalone installation, perform these steps.
+
+        - Navigate to the installation directory in a terminal and execute "/bin/asadmin start-domain".
+
+ - The application requires a system property defining the location of the configuration file required by the application.  To establish this property, you can use the following procedure.
 
 		- Once the Server has started, navigate to http://localhost:4848/ to open the GlassFish Console.
 
@@ -125,7 +133,7 @@ https://netbeans.org/downloads/
 		
 		- Click "OK" to save the new resource.
 		
- - After this procedure, exit GlassFish Console and shut down the server in NetBeans.
+ - After this procedure, exit GlassFish Console and shut down the server.
 
 **c)** Configuration File
 
