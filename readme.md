@@ -121,7 +121,7 @@ https://netbeans.org/downloads/
 	| databaseName  | chat_room  |
 	| user  | chat_room_db_user  |
 	| password  | 8B2R0li!dS@x26{  |
-	| url  | jdbc:mysql://localhost:3306/chat_room?serverTimezone=UTC  |
+	| url  | jdbc:mysql://localhost:3306/chat_room?serverTimezone=UTC&verifyServerCertificate=false&useSSL=false  |
 
         - Click on "Save" to save the new properties
 		
